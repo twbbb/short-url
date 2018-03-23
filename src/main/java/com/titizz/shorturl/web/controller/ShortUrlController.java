@@ -26,7 +26,7 @@ public class ShortUrlController {
 	@RequestMapping(value = "compress")
 	public ResponseMessage compress(
 			@RequestParam("url")
-            @Size(min = 20, max = 300, message = "url 长度不符合规定")
+            @Size(min = 10, max = 1000, message = "url 长度不符合规定")
 			String url) {
 
         String shortUrl = null;

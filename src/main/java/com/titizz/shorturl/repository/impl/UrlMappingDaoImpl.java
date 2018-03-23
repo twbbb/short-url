@@ -26,7 +26,8 @@ public class UrlMappingDaoImpl implements UrlMappingDao {
         sql.append(String.format("CREATE TABLE %s%d", URL_MAPPING_TABLE_PREFIX, intialCode));
         sql.append("(");
         sql.append("id BIGINT AUTO_INCREMENT PRIMARY KEY,");
-        sql.append("url VARCHAR(255)");
+        sql.append("url VARCHAR(1000),");
+        sql.append("createdate timestamp not null DEFAULT CURRENT_TIMESTAMP() ");
         sql.append(String.format(") ENGINE = InnoDB, AUTO_INCREMENT = %d", intialCode));
 
         jdbcTemplate.update(sql.toString());
@@ -92,12 +93,11 @@ public class UrlMappingDaoImpl implements UrlMappingDao {
     }
 
     private Long calculatePhysicalCode(Long initialCode, Long logicCode) {
-        return (logicCode - initialCode) * InitialCodeDao.AUTO_INCREMENT_STEP + initialCode;
+        return  logicCode * InitialCodeDao.AUTO_INCREMENT_STEP + initialCode;
     }
 
     private Long calculateLogicCode(Long physicalCode) {
-        Long initialCode = calculateInitialCode(physicalCode);
-        return physicalCode / InitialCodeDao.AUTO_INCREMENT_STEP + initialCode;
+        return physicalCode / InitialCodeDao.AUTO_INCREMENT_STEP ;
     }
 
     private Long calculateInitialCode(Long physicalCode) {
